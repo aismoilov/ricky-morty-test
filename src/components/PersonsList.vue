@@ -49,13 +49,12 @@ function filterPersons() {
       </div>
       <div class="persons-filters__item">
         <label>Фильтровать по:</label>
-        <select name="sort">
+        <select name="sort" @change="($e) => filterBy = $e.target.value">
           <option
             v-for="filter in filterOptions"
             :key="filter.value"
             :value="filter.value" 
             :selected="filterBy === filter.value"
-            @select="filterBy = filter.value"
           >{{ filter.text }}</option>
         </select>
       </div>
@@ -66,13 +65,14 @@ function filterPersons() {
       <button :disabled="isEnd" @click="emit('nextPage')">След.</button>
     </section>
   </section>
-  <section class="persons-list">
+  <section v-if="persons.length" class="persons-list">
     <PersonCard 
       v-for="person in persons" 
       :key="person.id"
       :person="person"
     />
   </section>
+  <div v-else>Персонажи не найдены</div>
 </template>
 
 <style scoped>
